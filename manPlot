@@ -1,0 +1,12 @@
+set autoscale
+unset log
+unset label
+set term png
+set output 'data.dat.png'
+set xtic auto
+set ytic auto
+set title "Heat developement over time"
+set xlabel "Time [sec]"
+set ylabel "Heat [°C]"
+set yr [0:110]
+plot 'data.dat' with linespoints pointtype -1
