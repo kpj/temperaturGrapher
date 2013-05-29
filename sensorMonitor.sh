@@ -1,7 +1,8 @@
 #!/bin/bash
 
 file="data.dat"
-intv="1s"
+intv="1"
+genplotIntv="10"
 
 function getTemp() {
 	data=`sensors`
@@ -41,7 +42,7 @@ set output '$file.png'
 set xtic auto
 set ytic auto
 set title \"Heat developement over time\"
-set xlabel \"Time [$intv]\"
+set xlabel \"Time [intv=$intv]\"
 set ylabel \"Heat [°C]\"
 #set xr [0:10]
 set yr [0:110]
@@ -63,9 +64,17 @@ function finish() {
 
 function getData() {
 	echo "Collecting data now..."
+	count=0
 	while true ; do
+		if [[ $(($count % $genplotIntv)) -eq 0 ]] ; then
+			echo -n "[$count] "
+			genPlot
+		fi
+
 		append `getTemp`
 		sleep $intv
+
+		count=$(($count + 1))
 	done
 }
 
